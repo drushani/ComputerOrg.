@@ -2,7 +2,7 @@
 module FA( inputA, inputB, cin, sum, cout ) ;
 
 input inputA, inputB, cin ;
-output sum, cout ;
+output sum, cout ; 
 wire w1, w2, w3, w4 ;
 
 // sum
