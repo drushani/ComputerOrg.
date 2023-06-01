@@ -7,7 +7,7 @@ input [3:0] E_in ;
 input [31:0] rd1_in, rd2_in ;
 input [5:0] funct_in ;
 input [4:0] shamt_in ;
-input [15:0] immed_in ;
+input [31:0] immed_in ;
 input [4:0] rt_in, rd_in ; 
 
 output reg [1:0] W_out, M_out ;
@@ -15,7 +15,7 @@ output reg [3:0] E_out ;
 output reg [31:0] rd1_out, rd2_out ;
 output reg [5:0] funct_out ;
 output reg [4:0] shamt_out ;
-output reg [15:0] immed_out ;
+output reg [31:0] immed_out ;
 output reg [4:0] rt_out, rd_out ; // writeback要用的
 
 always @(posedge clk) begin 
