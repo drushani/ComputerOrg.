@@ -21,6 +21,7 @@ module tb_Pipelined();
 		$readmemh("reg.txt", CPU.RegFile.file_array );
 		#10;
 		rst = 1'b0;
+
 	end
 	
 	always @( posedge clk ) begin
