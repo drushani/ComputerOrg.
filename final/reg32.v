@@ -7,17 +7,18 @@
 	Output Port
 		1. d_out: 所讀取的暫存器資料
 */
-module reg32 ( clk, rst, en_reg, d_in, d_out );
-    input clk, rst, en_reg;
+module reg32 ( rst, en_reg, d_in, d_out );
+    input rst, en_reg;
     input[31:0]	d_in;
-    output[31:0] d_out;
-    reg [31:0] d_out;
+    output reg [31:0] d_out;
    
-    always @( posedge clk ) begin
+    always@(rst or d_in) begin
         if ( rst )
 			d_out <= 32'b0;
         else if ( en_reg )
 			d_out <= d_in;
+		else 
+			d_out <= d_out ;
     end
 
 endmodule

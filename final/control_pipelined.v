@@ -11,9 +11,9 @@
 		7. Branch: 與ALU輸出的zero訊號做AND運算控制PCMUX
 		8. ALUOp: 輸出至ALU Control
 */
-module control_pipelined(clk,  rst , opcode, RegDst, ALUSrc, MemtoReg, RegWrite, 
+module control_pipelined(clk,  rst , en_reg, opcode, RegDst, ALUSrc, MemtoReg, RegWrite, 
 					   MemRead, MemWrite, Branch, Jump, ALUOp, ExtendSel);
-	input clk, rst ;
+	input clk, rst, en_reg;
     input[5:0] opcode;
     output reg RegDst, ALUSrc, MemtoReg, RegWrite, MemRead, MemWrite, Branch, Jump, ExtendSel;
     output reg [1:0] ALUOp;
@@ -26,7 +26,7 @@ module control_pipelined(clk,  rst , opcode, RegDst, ALUSrc, MemtoReg, RegWrite,
 	parameter J = 6'd2;
 
     always @( clk ) begin 
-		if (rst ) begin 
+		if (rst && !en_reg) begin 
 			RegDst = 1'b0 ;ALUSrc = 1'b0 ;MemtoReg = 1'b0 ;RegWrite = 1'b0 ;MemRead = 1'b0 ;
 			MemWrite = 1'b0; Branch = 1'b0; Jump = 1'b0; ALUOp = 2'b00; ExtendSel = 1'b0 ;
 		end 

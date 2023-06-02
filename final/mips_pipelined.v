@@ -14,10 +14,11 @@ module mips_pipelined( clk, rst );
 	wire [63:0] mul_ans ;
 	
 	// datapath signals
+	wire en_reg1, en_reg2, en_reg3 ;
 	wire [1:0] f_rs, f_rt ;
 	wire [4:0] rfile_wn, wn_out1, wn_out2;
 	wire [31:0] rfile_rd1, rd1_out, rfile_rd2, rd2_out, RD2toWD, rfile_wd, alu_b, alu_out, ans,
-	            ALUtoADDR, addr_out, b_tgt, pc, pc_incr, pc_add, hi_out, lo_out, 
+	            ALUtoADDR, addr_out, b_tgt, pc, pc_incr, pc_add, pc_next, hi_out, lo_out, 
                 jump_addr, branch_addr, dmem_rdata, dmem_rdata_out, alu_up, alu_down;
 
 	// control signals
@@ -45,13 +46,19 @@ module mips_pipelined( clk, rst );
 	
 	// -------------------------------------------Fetch--------------------------------------------------------
 	
+	reg32 PC(.rst(rst), .en_reg(en_reg1), .d_in(pc_next), .d_out(pc) );
+	
 	memory InstrMem( .clk(clk), .MemRead(1'b1), .MemWrite(1'b0), .wd(32'd0), .addr(pc), .rd(instr) ); 
 	
 	add32 PCADD( .a(pc), .b(32'd4), .result(pc_incr) ); 
 	
-	IF_ID IF_ID( .clk(clk), .rst(rst), .pc_in(pc_incr), .ins_in(instr), .pc_out(pc_add), .ins_out(instr_out)) ; 
+	IF_ID IF_ID( .clk(clk), .rst(rst), .en_reg(en_reg2), 
+	             .pc_in(pc_incr), .ins_in(instr), .pc_out(pc_add), .ins_out(instr_out)) ; 
 	
 	// ------------------------------------------Decode---------------------------------------------------------
+	
+	Hazard Hazard0(.clk(clk), .rst(rst), .rs(rs), .rt(rt), .rt2(rt_out), .memread(MEM_reg1[0]),
+	               .en_out1(en_reg1), .en_out2(en_reg2), .en_out3(en_reg3)) ;
 	
 	reg_file RegFile( .clk(clk), .RegWrite(WB_reg3[1]), .RN1(rs), .RN2(rt), 
 	                  .WN(wn_out2), .WD(rfile_wd), .RD1(rfile_rd1), .RD2(rfile_rd2) );
@@ -62,10 +69,9 @@ module mips_pipelined( clk, rst );
 	
 	ctl_mux2_1 #(32) EXTENDMUX( .sel(ExtendSel), .a(extend_immed), .b(extend_immed_un), .y(immed_result) ) ;
 
-    control_pipelined CTL(.clk(clk), .rst(rst), .opcode(opcode), .RegDst(RegDst), .ALUSrc(ALUSrc), 
-	                      .MemtoReg(MemtoReg),  .RegWrite(RegWrite), .MemRead(MemRead), 
-						  .MemWrite(MemWrite), .Branch(Branch), 
-                          .Jump(Jump), .ALUOp(ALUOp), .ExtendSel(ExtendSel));
+    control_pipelined CTL(.clk(clk), .rst(rst), .en_reg(en_reg3), .opcode(opcode), .RegDst(RegDst), .ALUSrc(ALUSrc), 
+	                      .MemtoReg(MemtoReg),  .RegWrite(RegWrite), .MemRead(MemRead), .MemWrite(MemWrite), 
+						  .Branch(Branch), .Jump(Jump), .ALUOp(ALUOp), .ExtendSel(ExtendSel));
 
     add32 BRADD( .a(pc_add), .b(b_offset), .result(b_tgt) ); 
 	
@@ -75,7 +81,7 @@ module mips_pipelined( clk, rst );
 	
     ctl_mux2_1 #(32) PCMUX( .sel(PCSrc), .a(pc_add), .b(b_tgt), .y(branch_addr) );
 
-	ctl_mux2_1 #(32) JMUX( .sel(Jump), .a(branch_addr), .b(jump_addr), .y(pc) );
+	ctl_mux2_1 #(32) JMUX( .sel(Jump), .a(branch_addr), .b(jump_addr), .y(pc_next) );
 		
 	ID_EX ID_EX(.clk(clk), .rst(rst), 
 	            .W_in(WB_reg), .M_in(MEM_reg), .E_in(EX_reg), .rd1_in(rfile_rd1), .rd2_in(rfile_rd2), 
