@@ -96,7 +96,7 @@ module mips_pipelined( clk, rst );
 	
 	mux3_1 F_RT(.sel(f_rt), .a(alu_b), .b(ALUtoADDR), .c(rfile_wd), .cout(alu_down)) ;
 	
-	alu_ctl ALUCTL( .ALUOp(EX_reg1[1:0]), .Funct(funct_out), .ALUOperation(Operation), .sel(sel) );
+	alu_ctl ALUCTL( .clk(clk), .rst(rst), .ALUOp(EX_reg1[1:0]), .Funct(funct_out), .ALUOperation(Operation), .sel(sel) );
 
 	alu ALU( .signal(Operation), .dataA(alu_up), .dataB(alu_down), 
 	         .dataOut(alu_out), .shamt(shamt_out)); 

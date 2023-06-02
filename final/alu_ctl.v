@@ -6,7 +6,8 @@
 		1. ALUOperation: 最後解碼完成之指令
 */
 
-module alu_ctl(ALUOp, Funct, ALUOperation, sel);
+module alu_ctl(clk, rst, ALUOp, Funct, ALUOperation, sel);
+	input clk, rst ;
     input [1:0] ALUOp;
     input [5:0] Funct;
     output reg [2:0] ALUOperation;
@@ -32,25 +33,31 @@ module alu_ctl(ALUOp, Funct, ALUOperation, sel);
 	parameter ALU_srl = 3'b011; 
     parameter ALU_mul = 3'b100; 
 	
-    always @(ALUOp or Funct)
+    always @(clk or rst or ALUOp or Funct)
     begin
-		sel = 2'b0 ;
-        case (ALUOp) 
-            2'b00 : ALUOperation = ALU_add; // lw sw 
-            2'b01 : ALUOperation = ALU_sub; // beq 
-            2'b10 : case (Funct) 
-                        F_add : ALUOperation = ALU_add; // add 
-                        F_sub : ALUOperation = ALU_sub; // sub 
-                        F_and : ALUOperation = ALU_and; // and 
-                        F_or  : ALUOperation = ALU_or;  // or 
-                        F_slt : ALUOperation = ALU_slt; // slt 
-						F_mul : ALUOperation = ALU_mul ; // mul 
-						F_mfhi: sel = 2'b01 ;
-						F_mflo: sel = 2'b10 ;
-                        default ALUOperation = 3'bxxx;
-                    endcase
+		if (rst) begin
+			ALUOperation = 3'b0 ;
+		end 
+		else begin 
+			sel = 2'b0 ;
+			case (ALUOp) 
+				2'b00 : ALUOperation = ALU_add; // lw sw 
+				2'b01 : ALUOperation = ALU_sub; // beq 
+				2'b10 : 
+				case (Funct) 
+					F_add : ALUOperation = ALU_add; // add 
+                    F_sub : ALUOperation = ALU_sub; // sub 
+                    F_and : ALUOperation = ALU_and; // and 
+                    F_or  : ALUOperation = ALU_or;  // or 
+                    F_slt : ALUOperation = ALU_slt; // slt 
+					F_mul : ALUOperation = ALU_mul ; // mul 
+					F_mfhi: sel = 2'b01 ;
+					F_mflo: sel = 2'b10 ;
+                    default ALUOperation = 3'bxxx;
+                endcase
             default ALUOperation = 3'bxxx;
-        endcase
+			endcase
+	    end 
     end
 endmodule
 
