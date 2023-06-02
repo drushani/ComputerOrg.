@@ -24,7 +24,7 @@ module memory( clk, MemRead, MemWrite, wd, addr, rd );
 			rd[15:8] = mem_array[addr+1];
 			rd[23:16] = mem_array[addr+2];
 			rd[31:24] = mem_array[addr+3];
-			$display( "%d, reading data: Mem[%d] => %d", $time/10, addr, rd );
+			$display( "%d, reading data: Mem[%d] => %d", $time, addr, rd );
 		end
 		else rd = 32'hxxxxxxxx;
 	end
@@ -32,7 +32,7 @@ module memory( clk, MemRead, MemWrite, wd, addr, rd );
 	// 以下將資料寫入指定記憶體位置
 	always @( posedge clk ) begin
 		if ( MemWrite == 1'b1 ) begin
-			$display( "%d, writing data: Mem[%d] <= %d", $time/10, addr, wd );
+			$display( "%d, writing data: Mem[%d] <= %d", $time, addr, wd );
 			mem_array[addr] <= wd[7:0];
 			mem_array[addr+1] <= wd[15:8];
 			mem_array[addr+2] <= wd[23:16];

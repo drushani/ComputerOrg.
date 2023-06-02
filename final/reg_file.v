@@ -24,7 +24,7 @@ module reg_file( clk, RegWrite, RN1, RN2, WN, WD, RD1, RD2 );
 			RD1 = 32'd0;
 		else
 			RD1 = file_array[RN1];
-		$display( "%d, reg_file[%d] => %d (Port 1)", $time/10, RN1, RD1);
+		$display( "%d, reg_file[%d] => %d (Port 1)", $time, RN1, RD1);
 	end
 
 	always @( RN2 or file_array[RN2] ) begin
@@ -32,13 +32,13 @@ module reg_file( clk, RegWrite, RN1, RN2, WN, WD, RD1, RD2 );
 			RD2 = 32'd0;
 		else
 			RD2 = file_array[RN2];
-		$display( "%d, reg_file[%d] => %d (Port 2)", $time/10, RN2, RD2);
+		$display( "%d, reg_file[%d] => %d (Port 2)", $time, RN2, RD2);
 	end
 
 	always @( posedge clk ) begin
-		if ( RegWrite && (WN != 0) ) begin // 如果要寫入, WN不可以是0
+		if ( RegWrite && (WN != 0) ) begin 
 			file_array[WN] <= WD;
-			$display( "%d, reg_file[%d] <= %d (Write)", $time/10, WN, WD);
+			$display( "%d, reg_file[%d] <= %d (Write)", $time, WN, WD);
 		end
 	end
 endmodule

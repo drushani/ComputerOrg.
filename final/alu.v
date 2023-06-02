@@ -1,10 +1,9 @@
-module alu( signal, dataA, dataB, dataOut, shamt, zero );
+module alu( signal, dataA, dataB, dataOut, shamt );
 
 input [2:0] signal ;
 input [31:0] dataA, dataB ;
 input [4:0] shamt ;
 output [31:0] dataOut ; 
-output zero ;
 
 wire invertB, cin, set ;
 wire [31:0] srl_ans, temp, cout ;
@@ -47,6 +46,5 @@ alu_1bit alu32( .signal(signal), .dataA(dataA[31]), .dataB(dataB[31]), .invertB(
 shifter shifter(.dataA(dataB), .dataB(shamt), .dataOut(srl_ans) ) ;
 
 assign dataOut = (signal == 3'b011)? srl_ans : temp ;
-assign zero = (temp == 0) ? 1:0;
 
 endmodule

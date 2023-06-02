@@ -1,5 +1,5 @@
-module ID_EX(clk, rst, W_in, M_in, E_in, rd1_in, rd2_in, funct_in, shamt_in, immed_in, rt_in, rd_in, 
-                       W_out, M_out, E_out, rd1_out, rd2_out, funct_out, shamt_out, immed_out, rt_out, rd_out) ;
+module ID_EX(clk, rst, W_in, M_in, E_in, rd1_in, rd2_in, funct_in, shamt_in, immed_in, rs_in, rt_in, rd_in, 
+                       W_out, M_out, E_out, rd1_out, rd2_out, funct_out, shamt_out, immed_out, rs_out, rt_out, rd_out) ;
 
 input clk, rst ;
 input [1:0] W_in, M_in ;
@@ -8,7 +8,7 @@ input [31:0] rd1_in, rd2_in ;
 input [5:0] funct_in ;
 input [4:0] shamt_in ;
 input [31:0] immed_in ;
-input [4:0] rt_in, rd_in ; 
+input [4:0] rs_in, rt_in, rd_in ; 
 
 output reg [1:0] W_out, M_out ;
 output reg [3:0] E_out ;
@@ -16,7 +16,7 @@ output reg [31:0] rd1_out, rd2_out ;
 output reg [5:0] funct_out ;
 output reg [4:0] shamt_out ;
 output reg [31:0] immed_out ;
-output reg [4:0] rt_out, rd_out ; // writeback要用的
+output reg [4:0] rs_out, rt_out, rd_out ; 
 
 always @(posedge clk) begin 
   if (rst) begin 
@@ -28,6 +28,7 @@ always @(posedge clk) begin
     funct_out <= 6'b0 ;
     shamt_out <= 5'b0 ;
 	immed_out <= 16'b0 ;
+	rs_out <= 5'b0 ;
 	rt_out <= 5'b0 ;
 	rd_out <= 5'b0 ;
   end 
@@ -40,6 +41,7 @@ always @(posedge clk) begin
     funct_out <= funct_in ;
     shamt_out <= shamt_in ;
 	immed_out <= immed_in ;
+	rs_out <= rs_in;
 	rt_out <= rt_in ;
 	rd_out <= rd_in ;
   end 
