@@ -1,6 +1,6 @@
-module Hazard(clk, rst, rs, rt, rt2, memread, en_out1, en_out2, en_out3) ;
+module Hazard(clk, rst, rs, rt, rt2, PCSrc, memread, en_out1, en_out2, en_out3) ;
 
-input clk, rst, memread;
+input clk, rst, memread, PCSrc;
 input [4:0] rs, rt, rt2;
 output reg en_out1, en_out2, en_out3;
 
@@ -16,6 +16,10 @@ always@(posedge clk) begin
 			en_out2 <= 1'b0 ;
 			en_out3 <= 1'b0 ;
 		end 
+	end 
+	else if (PCSrc) begin 
+		en_out1 <= 1'b0 ;
+		en_out2 <= 1'b0 ;
 	end 
 end 
 

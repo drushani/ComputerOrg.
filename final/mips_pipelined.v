@@ -22,7 +22,7 @@ module mips_pipelined( clk, rst );
                 jump_addr, branch_addr, dmem_rdata, dmem_rdata_out, alu_up, alu_down;
 
 	// control signals
-    wire RegWrite, Branch, PCSrc, RegDst, MemtoReg, MemRead, MemWrite, ALUSrc, Zero, Jump, ExtendSel;
+    wire RegWrite, Branch, PCSrc, RegDst, MemtoReg, MemRead, MemWrite, ALUSrc, Jump, ExtendSel;
     wire [1:0] ALUOp, sel;
     wire [2:0] Operation;
 	
@@ -57,7 +57,7 @@ module mips_pipelined( clk, rst );
 	
 	// ------------------------------------------Decode---------------------------------------------------------
 	
-	Hazard Hazard0(.clk(clk), .rst(rst), .rs(rs), .rt(rt), .rt2(rt_out),
+	Hazard Hazard0(.clk(clk), .rst(rst), .rs(rs), .rt(rt), .rt2(rt_out), .PCSrc(PCSrc), 
 	               .memread(MEM_reg1[0]), .en_out1(en_reg1), .en_out2(en_reg2), .en_out3(en_reg3)) ;
 	
 	reg_file RegFile( .clk(clk), .RegWrite(WB_reg3[1]), .RN1(rs), .RN2(rt), 
@@ -75,9 +75,7 @@ module mips_pipelined( clk, rst );
 
     add32 BRADD( .a(pc_add), .b(b_offset), .result(b_tgt) ); 
 	
-	and ST_AND(Zero, rs, rt) ;
-	
-	and BR_AND(PCSrc, Branch, Zero);
+	branch_ornot branch0(.rs(rs), .rt(rt), .branch(Branch), .PCSrc(PCSrc)) ;
 	
     ctl_mux2_1 #(32) PCMUX( .sel(PCSrc), .a(pc_add), .b(b_tgt), .y(branch_addr) );
 
