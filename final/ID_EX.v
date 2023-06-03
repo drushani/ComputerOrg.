@@ -20,17 +20,17 @@ output reg [4:0] rs_out, rt_out, rd_out ;
 
 always @(posedge clk) begin 
   if (rst) begin 
-    W_out <= 2'b0 ;
-	M_out <= 2'b0 ;
-	E_out <= 4'b0 ;
-    rd1_out <= 32'b0 ;
-	rd2_out <= 32'b0 ;
-    funct_out <= 6'b0 ;
-    shamt_out <= 5'b0 ;
-	immed_out <= 16'b0 ;
-	rs_out <= 5'b0 ;
-	rt_out <= 5'b0 ;
-	rd_out <= 5'b0 ;
+    W_out <= 2'bx ;
+	M_out <= 2'bx ;
+	E_out <= 4'bx ;
+    rd1_out <= 32'bx ;
+	rd2_out <= 32'bx ;
+    funct_out <= 6'bx ;
+    shamt_out <= 5'bx ;
+	immed_out <= 16'bx ;
+	rs_out <= 5'bx ;
+	rt_out <= 5'bx ;
+	rd_out <= 5'bx ;
   end 
   else begin 
     W_out <= W_in ;

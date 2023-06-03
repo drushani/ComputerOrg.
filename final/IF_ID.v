@@ -6,8 +6,8 @@ output reg [31:0] pc_out, ins_out ;
 
 always @(posedge clk) begin 
   if (rst) begin 
-    pc_out <= 32'b0 ;
-	ins_out <= 32'b0 ;
+    pc_out <= 32'bx ;
+	ins_out <= 32'bx ;
   end 
   else if (en_reg) begin 
 	pc_out <= pc_in ;

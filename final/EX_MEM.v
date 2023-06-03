@@ -11,11 +11,11 @@ output reg [4:0] WN_out ;
 
 always @(posedge clk or rst ) begin 
   if (rst) begin 
-    W_out <= 2'b0;
-	M_out <= 2'b0 ;
-	ALU_out <= 32'b0 ;
-	RD2_out <= 32'b0 ;
-	WN_out <= 5'b0 ;
+    W_out <= 2'bx;
+	M_out <= 2'bx ;
+	ALU_out <= 32'bx ;
+	RD2_out <= 32'bx ;
+	WN_out <= 5'bx ;
   end 
   else begin 
     W_out <= W_in ;

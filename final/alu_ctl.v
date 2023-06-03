@@ -20,7 +20,7 @@ module alu_ctl(ALUOp, Funct, ALUOperation, sel);
     parameter F_and = 6'd36 ;
     parameter F_or  = 6'd37 ;
     parameter F_slt = 6'd42 ;
-    parameter F_sll = 6'd0  ;
+    parameter F_srl = 6'd2  ;
     parameter F_mul = 6'd25 ;
 	parameter F_mad = 6'd1  ;
     parameter F_mfhi = 6'd16;
@@ -32,7 +32,7 @@ module alu_ctl(ALUOp, Funct, ALUOperation, sel);
     parameter ALU_and = 3'b000;
     parameter ALU_or  = 3'b001;
     parameter ALU_slt = 3'b111;
-    parameter ALU_sll = 3'b011; 
+    parameter ALU_srl = 3'b011; 
     parameter ALU_mul = 3'b100; 
 
 	
@@ -48,7 +48,7 @@ module alu_ctl(ALUOp, Funct, ALUOperation, sel);
                         F_and : ALUOperation = ALU_and;
                         F_or  : ALUOperation = ALU_or ;
                         F_slt : ALUOperation = ALU_slt;
-						F_sll : ALUOperation = ALU_sll;
+						F_srl : ALUOperation = ALU_srl;
 						F_mul : ALUOperation = ALU_mul;
 						F_mad : ALUOperation = ALU_mul;
 						F_mfhi: sel = 2'b01 ;
