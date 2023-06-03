@@ -4,7 +4,7 @@ input clk, rst, memread, PCSrc;
 input [4:0] rs, rt, rt2;
 output reg en_out1, en_out2, en_out3;
 
-always@(posedge clk) begin 
+always@(memread or rst or PCSrc) begin 
 	if (rst) begin 
 		en_out1 <= 1'b1 ;
 		en_out2 <= 1'b1 ;
