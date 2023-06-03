@@ -42,6 +42,7 @@ module tb_Pipelined();
 			end
 			else if ( CPU.funct == 6'd42 ) $display( "%d, SLT\n", $time );
 			else if ( CPU.funct == 6'd25 ) $display( "%d, MULTU\n", $time );
+			else if ( CPU.funct == 6'd1  ) $display( "%d, MADDU\n", $time );
 			else if ( CPU.funct == 6'd10 ) $display( "%d, MFHI\n", $time );
 			else if ( CPU.funct == 6'd12 ) $display( "%d, MFLO\n", $time );
 		end

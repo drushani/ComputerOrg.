@@ -19,6 +19,7 @@ module control_pipelined(clk,  rst , en_reg, opcode, RegDst, ALUSrc, MemtoReg, R
     output reg [1:0] ALUOp;
 
     parameter R_FORMAT = 6'd0;
+	parameter MADDU = 6'd28;
 	parameter ADDIU = 6'd9;
     parameter LW = 6'd35;
     parameter SW = 6'd43;
@@ -37,6 +38,11 @@ module control_pipelined(clk,  rst , en_reg, opcode, RegDst, ALUSrc, MemtoReg, R
 					RegDst = 1'b1; ALUSrc = 1'b0; MemtoReg = 1'b0; RegWrite = 1'b1; MemRead = 1'b0; 
 					MemWrite = 1'b0; Branch = 1'b0; Jump = 1'b0; ALUOp = 2'b10; ExtendSel = 1'b0 ;
 			end
+			MADDU :
+			begin 
+					RegDst = 1'b1; ALUSrc = 1'b0; MemtoReg = 1'b0; RegWrite = 1'b1; MemRead = 1'b0; 
+					MemWrite = 1'b0; Branch = 1'b0; Jump = 1'b0; ALUOp = 2'b10; ExtendSel = 1'b0 ;
+			end 
 			ADDIU :
 			begin 
 					RegDst = 1'b0; ALUSrc = 1'b1; MemtoReg = 1'b0; RegWrite = 1'b1; MemRead = 1'b0; 

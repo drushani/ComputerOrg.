@@ -57,8 +57,8 @@ module mips_pipelined( clk, rst );
 	
 	// ------------------------------------------Decode---------------------------------------------------------
 	
-	Hazard Hazard0(.clk(clk), .rst(rst), .rs(rs), .rt(rt), .rt2(rt_out), .memread(MEM_reg1[0]),
-	               .en_out1(en_reg1), .en_out2(en_reg2), .en_out3(en_reg3)) ;
+	Hazard Hazard0(.clk(clk), .rst(rst), .rs(rs), .rt(rt), .rt2(rt_out),
+	               .memread(MEM_reg1[0]), .en_out1(en_reg1), .en_out2(en_reg2), .en_out3(en_reg3)) ;
 	
 	reg_file RegFile( .clk(clk), .RegWrite(WB_reg3[1]), .RN1(rs), .RN2(rt), 
 	                  .WN(wn_out2), .WD(rfile_wd), .RD1(rfile_rd1), .RD2(rfile_rd2) );
@@ -102,7 +102,7 @@ module mips_pipelined( clk, rst );
 	
 	mux3_1 F_RT(.sel(f_rt), .a(alu_b), .b(ALUtoADDR), .c(rfile_wd), .cout(alu_down)) ;
 	
-	alu_ctl ALUCTL( .clk(clk), .rst(rst), .ALUOp(EX_reg1[1:0]), .Funct(funct_out), .ALUOperation(Operation), .sel(sel) );
+	alu_ctl ALUCTL( .rst(rst), .ALUOp(EX_reg1[1:0]), .Funct(funct_out), .ALUOperation(Operation), .sel(sel) );
 
 	alu ALU( .signal(Operation), .dataA(alu_up), .dataB(alu_down), 
 	         .dataOut(alu_out), .shamt(shamt_out)); 
@@ -110,7 +110,7 @@ module mips_pipelined( clk, rst );
 	multiplier multiplier( .clk(clk), .rst(rst), .signal(Operation), .dataA(rd1_out), .dataB(rd2_out), 
 	                       .dataOut(mul_ans) ) ;
 	
-	HiLo HiLo( .clk(clk), .MTPAns(mul_ans), .HiOut(hi_out), .LoOut(lo_out), .rst(rst) ) ;
+	HiLo HiLo( .clk(clk), .op(funct_out), .MulAns(mul_ans), .HiOut(hi_out), .LoOut(lo_out), .rst(rst) ) ;
 	
 	mux3_1 MUL_ALU_ans(.sel(sel), .a(alu_out), .b(hi_out), .c(lo_out), .cout(ans)) ;
 	
