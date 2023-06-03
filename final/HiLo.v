@@ -9,7 +9,7 @@ reg [63:0] HiLo ;
 parameter MULTU = 6'd1 ;
 parameter MADDU = 6'd28;
 
-always@( posedge clk or rst )
+always@( MulAns or rst )
 begin
 	if ( rst )
 	begin

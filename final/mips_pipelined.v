@@ -76,7 +76,7 @@ module mips_pipelined( clk, rst );
     add32 BRADD( .a(pc_add), .b(b_offset), .result(b_tgt) ); 
 	
 	branch_ornot branch0(.rs(rs), .rt(rt), .branch(Branch), .PCSrc(PCSrc)) ;
-	
+		
     ctl_mux2_1 #(32) PCMUX( .sel(PCSrc), .a(pc_add), .b(b_tgt), .y(branch_addr) );
 
 	ctl_mux2_1 #(32) JMUX( .sel(Jump), .a(branch_addr), .b(jump_addr), .y(pc_next) );
