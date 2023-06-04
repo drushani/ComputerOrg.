@@ -20,6 +20,12 @@ always@(memread or rst or PCSrc) begin
 	else if (PCSrc) begin 
 		en_out1 <= 1'b0 ;
 		en_out2 <= 1'b0 ;
+		en_out3 <= 1'b0 ;
+	end 
+	else begin 
+		en_out1 <= 1;
+		en_out2 <= 1;
+		en_out3 <= 1;
 	end 
 end 
 

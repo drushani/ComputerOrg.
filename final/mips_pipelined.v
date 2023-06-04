@@ -9,7 +9,7 @@ module mips_pipelined( clk, rst );
 	wire [5:0] opcode, funct, funct_out;
     wire [4:0] rs, rs_out, rt, rt_out, rd, rd_out, shamt, shamt_out;
     wire [15:0] immed;
-    wire [31:0] extend_immed, extend_immed_un, immed_result, extend_out, b_offset;
+    wire [31:0] extend_immed, extend_immed_un, immed_result, extend_out, b_offset, b_offset_out;
     wire [25:0] jumpoffset;
 	wire [63:0] mul_ans ;
 	
@@ -22,7 +22,7 @@ module mips_pipelined( clk, rst );
                 jump_addr, branch_addr, dmem_rdata, dmem_rdata_out, alu_up, alu_down;
 
 	// control signals
-    wire RegWrite, Branch, PCSrc, RegDst, MemtoReg, MemRead, MemWrite, ALUSrc, Jump, ExtendSel;
+    wire RegWrite, Branch, Branch_out,  PCSrc, RegDst, MemtoReg, MemRead, MemWrite, ALUSrc, Jump, ExtendSel;
     wire [1:0] ALUOp, sel;
     wire [2:0] Operation;
 	
@@ -46,7 +46,8 @@ module mips_pipelined( clk, rst );
 	
 	// -------------------------------------------Fetch--------------------------------------------------------
 	
-	reg32 PC(.rst(rst), .en_reg(en_reg1), .d_in(pc_next), .d_out(pc) );
+	reg32 PC(.rst(rst), .en_reg(en_reg1), .PCSrc(PCSrc), 
+	         .b_tgt(b_tgt), .d_in(pc_next), .d_out(pc) );
 	
 	memory InstrMem( .clk(clk), .MemRead(1'b1), .MemWrite(1'b0), .wd(32'd0), .addr(pc), .rd(instr) ); 
 	
@@ -73,24 +74,24 @@ module mips_pipelined( clk, rst );
 	                      .MemtoReg(MemtoReg),  .RegWrite(RegWrite), .MemRead(MemRead), .MemWrite(MemWrite), 
 						  .Branch(Branch), .Jump(Jump), .ALUOp(ALUOp), .ExtendSel(ExtendSel));
 
-    add32 BRADD( .a(pc_add), .b(b_offset), .result(b_tgt) ); 
-	
-	branch_ornot branch0(.rs(rs), .rt(rt), .branch(Branch), .PCSrc(PCSrc)) ;
-		
-    ctl_mux2_1 #(32) PCMUX( .sel(PCSrc), .a(pc_add), .b(b_tgt), .y(branch_addr) );
-
-	ctl_mux2_1 #(32) JMUX( .sel(Jump), .a(branch_addr), .b(jump_addr), .y(pc_next) );
+	ctl_mux2_1 #(32) JMUX( .sel(Jump), .a(pc_add), .b(jump_addr), .y(pc_next) );
 		
 	ID_EX ID_EX(.clk(clk), .rst(rst), 
 	            .W_in(WB_reg), .M_in(MEM_reg), .E_in(EX_reg), .rd1_in(rfile_rd1), .rd2_in(rfile_rd2), 
 	            .funct_in(funct), .shamt_in(shamt), .immed_in(immed_result), 
 				.rs_in(rs), .rt_in(rt), .rd_in(rd),
+				.b_offset_in(b_offset) , .branch_in(Branch), 
 				.W_out(WB_reg1), .M_out(MEM_reg1), .E_out(EX_reg1), .rd1_out(rd1_out), .rd2_out(rd2_out), 
 				.funct_out(funct_out), .shamt_out(shamt_out), .immed_out(extend_out), 
-				.rs_out(rs_out), .rt_out(rt_out), .rd_out(rd_out)) ;
+				.rs_out(rs_out), .rt_out(rt_out), .rd_out(rd_out),
+				.b_offset_out(b_offset_out), .branch_out(Branch_out)) ;
 	
 	// -------------------------------------------Execute-------------------------------------------------------
 
+	branch_ornot branch_ornot0(.rs(rs_out), .rt(rt_out), .branch(Branch_out), .PCSrc(PCSrc)) ;
+	
+	add32 BRADD( .a(pc_add), .b(b_offset_out), .result(b_tgt) ); 
+	
 	Forward Forward0(.rst(rst), .rs(rs_out), .rt(rt_out), .wn1(wn_out1), .wn2(wn_out2), 
 	                     .WB1(WB_reg2), .WB2(WB_reg3), .f_rs(f_rs), .f_rt(f_rt)) ;
 			

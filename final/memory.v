@@ -19,6 +19,7 @@ module memory( clk, MemRead, MemWrite, wd, addr, rd );
 	// 以下為至指定記憶體位置讀取資料 
 	always @( MemRead or mem_array[addr] or mem_array[addr+1] or 
 			  mem_array[addr+2] or mem_array[addr+3] ) begin
+			 
 		if ( MemRead == 1'b1 ) begin
 			rd[7:0] = mem_array[addr];
 			rd[15:8] = mem_array[addr+1];
