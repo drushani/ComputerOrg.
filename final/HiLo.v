@@ -19,7 +19,8 @@ begin
 	begin 
 		HiLo = MulAns ;	
 	end 
-	HiLo = HiLo + MulAns ;
+	
+	if (op != MULTU) HiLo = HiLo + MulAns ;
 end
 
 assign HiOut = HiLo[63:32] ;

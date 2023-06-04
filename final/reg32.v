@@ -21,7 +21,6 @@ module reg32 ( rst, en_reg, PCSrc, b_tgt, d_in, d_out );
 			d_out = d_in;
 		else 
 			d_out = d_out-32'd4 ;
-		$display("%b", d_out) ;
     end
 
 endmodule
