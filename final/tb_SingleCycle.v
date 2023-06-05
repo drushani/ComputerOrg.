@@ -37,9 +37,8 @@ module tb_Pipelined();
 			else if ( CPU.funct == 6'd0 ) begin
 				if ( CPU.rs == 5'd0 && CPU.rt == 5'd0 && CPU.rd == 5'd0 && CPU.shamt == 5'd0 )
 					$display( "%d, NOP\n", $time );
-				else
-					$display( "%d, SRL\n", $time );
 			end
+			else if ( CPU.funct == 6'd2 ) $display( "%d, SRL\n", $time );
 			else if ( CPU.funct == 6'd42 ) $display( "%d, SLT\n", $time );
 			else if ( CPU.funct == 6'd25 ) $display( "%d, MULTU\n", $time );
 			else if ( CPU.funct == 6'd1  ) $display( "%d, MADDU\n", $time );
@@ -50,7 +49,6 @@ module tb_Pipelined();
 		else if ( CPU.opcode == 6'd35 ) $display( "%d, LW\n", $time );
 		else if ( CPU.opcode == 6'd43 ) $display( "%d, SW\n", $time );
 		else if ( CPU.opcode == 6'd4 ) $display( "%d, BEQ\n", $time );
-		else if ( CPU.opcode == 6'd5 ) $display( "%d, BNE\n", $time );
 		else if ( CPU.opcode == 6'd2 ) $display( "%d, J\n", $time );
 	end
 	
