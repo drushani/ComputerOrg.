@@ -19,7 +19,7 @@ module mips_pipelined( clk, rst );
 	wire [4:0] rfile_wn, wn_out1, wn_out2;
 	wire [31:0] rfile_rd1, rd1_out, rfile_rd2, rd2_out, RD2toWD, rfile_wd, alu_b, alu_out, ans,
 	            ALUtoADDR, addr_out, b_tgt, pc, pc_incr, pc_add, pc_next, hi_out, lo_out, 
-                jump_addr, branch_addr, dmem_rdata, dmem_rdata_out, alu_up, alu_down;
+                jump_addr, dmem_rdata, dmem_rdata_out, alu_up, alu_down;
 
 	// control signals
     wire RegWrite, Branch, Branch_out,  PCSrc, RegDst, MemtoReg, MemRead, MemWrite, ALUSrc, Jump, ExtendSel;
