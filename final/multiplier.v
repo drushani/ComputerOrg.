@@ -10,7 +10,6 @@ input clk, rst ;
 output  [63:0] dataOut ;
 wire [63:0] multiplicand ; // 被乘數
 wire [31:0] multiplier ;   // 乘數
-reg [63:0] product ;      // 積
 
 wire [63:0] temp1, temp2, temp3, temp4, temp5, temp6, temp7, temp8, temp9, temp10,
             temp11, temp12, temp13, temp14, temp15, temp16, temp17, temp18, temp19,
@@ -95,17 +94,9 @@ multu_1bit mul30(.a(multiplier[29]), .b(temp30), .product(ans30));
 multu_1bit mul31(.a(multiplier[30]), .b(temp31), .product(ans31));
 multu_1bit mul32(.a(multiplier[31]), .b(temp32), .product(ans32));
 
-always @( posedge clk or rst )
-begin
-	if (rst) product <= 64'b0 ;
-	if (signal == mul) begin 
-		product =  ans1 + ans2 + ans3 + ans4 + ans5 + ans6 + ans7 + ans8 +
-		           ans9 + ans10+ ans11+ ans12+ ans13+ ans14+ ans15+ ans16+
-				   ans17+ ans18+ ans19+ ans20+ ans21+ ans22+ ans23+ ans24+
-				   ans25+ ans26+ ans27+ ans28+ ans29+ ans30+ ans31+ ans32;
-	end 
-end
-
-assign dataOut = product ;
+assign dataOut = (signal == mul) ? (ans1 + ans2 + ans3 + ans4 + ans5 + ans6 + ans7 + ans8 +
+									ans9 + ans10+ ans11+ ans12+ ans13+ ans14+ ans15+ ans16+
+									ans17+ ans18+ ans19+ ans20+ ans21+ ans22+ ans23+ ans24+
+									ans25+ ans26+ ans27+ ans28+ ans29+ ans30+ ans31+ ans32) : 0 ;
 
 endmodule

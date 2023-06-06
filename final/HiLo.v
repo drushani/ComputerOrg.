@@ -9,7 +9,7 @@ reg [63:0] HiLo ;
 parameter MULTU = 6'd25 ;
 parameter MADDU = 6'd1  ;
 
-always@( MulAns or rst )
+always@( MulAns or rst or op)
 begin
 	if ( rst )
 		HiLo = 64'b0 ;
