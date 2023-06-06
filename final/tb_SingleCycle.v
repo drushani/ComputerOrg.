@@ -41,10 +41,10 @@ module tb_Pipelined();
 			else if ( CPU.funct == 6'd2 ) $display( "%d, SRL\n", $time );
 			else if ( CPU.funct == 6'd42 ) $display( "%d, SLT\n", $time );
 			else if ( CPU.funct == 6'd25 ) $display( "%d, MULTU\n", $time );
-			else if ( CPU.funct == 6'd1  ) $display( "%d, MADDU\n", $time );
 			else if ( CPU.funct == 6'd16 ) $display( "%d, MFHI\n", $time );
 			else if ( CPU.funct == 6'd18 ) $display( "%d, MFLO\n", $time );
 		end
+		else if ( CPU.opcode == 6'd28  ) $display( "%d, MADDU\n", $time );
 		else if ( CPU.opcode == 6'd9 ) $display( "%d, ADDIU\n", $time );
 		else if ( CPU.opcode == 6'd35 ) $display( "%d, LW\n", $time );
 		else if ( CPU.opcode == 6'd43 ) $display( "%d, SW\n", $time );

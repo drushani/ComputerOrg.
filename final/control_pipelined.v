@@ -27,7 +27,7 @@ module control_pipelined(clk,  rst , en_reg, opcode, RegDst, ALUSrc, MemtoReg, R
 	parameter J = 6'd2;
 
     always @( rst or opcode or en_reg) begin 
-		if (rst && !en_reg) begin 
+		if (rst || !en_reg) begin 
 			RegDst = 1'b0 ;ALUSrc = 1'b0 ;MemtoReg = 1'b0 ;RegWrite = 1'b0 ;MemRead = 1'b0 ;
 			MemWrite = 1'b0; Branch = 1'b0; Jump = 1'b0; ALUOp = 2'b00; ExtendSel = 1'b0 ;
 		end 

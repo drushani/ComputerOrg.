@@ -64,9 +64,9 @@ module mips_pipelined( clk, rst );
 	reg_file RegFile( .clk(clk), .RegWrite(WB_reg3[1]), .RN1(rs), .RN2(rt), 
 	                  .WN(wn_out2), .WD(rfile_wd), .RD1(rfile_rd1), .RD2(rfile_rd2) );
 	
-	sign_extend SignExt( .immed_in(immed), .ext_immed_out(extend_immed) );
+	sign_extend SignExt( .immed_in(immed), .ext_immed_out(extend_immed) ); 
 	
-	unsign_extend UnsignExt( .immed_in_un(immed), .ext_immed_un(extend_immed_un)) ;
+	unsign_extend UnsignExt( .immed_in_un(immed), .ext_immed_un(extend_immed_un)) ; 
 	
 	ctl_mux2_1 #(32) EXTENDMUX( .sel(ExtendSel), .a(extend_immed), .b(extend_immed_un), .y(immed_result) ) ;
 
