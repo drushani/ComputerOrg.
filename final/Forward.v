@@ -30,6 +30,10 @@ always@(rs or rt or rst) begin
 		if (rs == wn2) f_rs <= 2'b10 ;
 		if (rt == wn2) f_rt <= 2'b10 ;
 	end 
+	else begin 
+		f_rs <= 2'b00 ;
+		f_rt <= 2'b00 ;
+	end 
 end 
 
 endmodule 
