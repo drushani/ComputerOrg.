@@ -74,7 +74,7 @@ module mips_pipelined( clk, rst );
 	                      .MemtoReg(MemtoReg),  .RegWrite(RegWrite), .MemRead(MemRead), .MemWrite(MemWrite), 
 						  .Branch(Branch), .Jump(Jump), .ALUOp(ALUOp), .ExtendSel(ExtendSel));
 
-	ctl_mux2_1 #(32) JMUX( .sel(Jump), .a(pc_add), .b(jump_addr), .y(pc_next) );
+	ctl_mux2_1 #(32) JMUX( .sel(Jump), .a(pc_add), .b(jump_addr+pc_add), .y(pc_next) );
 		
 	ID_EX ID_EX(.clk(clk), .rst(rst), 
 	            .W_in(WB_reg), .M_in(MEM_reg), .E_in(EX_reg), .rd1_in(rfile_rd1), .rd2_in(rfile_rd2), 

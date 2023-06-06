@@ -65,8 +65,8 @@ module control_pipelined(clk,  rst , en_reg, opcode, RegDst, ALUSrc, MemtoReg, R
 			end
 			J :
 			begin
-					RegDst = 1'bx; ALUSrc = 1'b0; MemtoReg = 1'bx; RegWrite = 1'b0; MemRead = 1'b0; 
-					MemWrite = 1'b0; Branch = 1'b1; Jump = 1'b1; ALUOp = 2'b01; ExtendSel = 1'b1 ;
+					RegDst = 1'bx; ALUSrc = 1'b1; MemtoReg = 1'bx; RegWrite = 1'b0; MemRead = 1'b0; 
+					MemWrite = 1'b0; Branch = 1'b0; Jump = 1'b1; ALUOp = 2'b00; ExtendSel = 1'b1 ;
 			end
 		  
 			default
