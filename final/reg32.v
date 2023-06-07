@@ -16,7 +16,7 @@ module reg32 ( rst, en_reg, PCSrc, b_tgt, d_in, d_out );
         if ( rst )
 			d_out = 32'b0;
 		else if ( PCSrc )
-			d_out = b_tgt-32'd4;
+			d_out = b_tgt;
         else if ( en_reg )
 			d_out = d_in;
 		else 
